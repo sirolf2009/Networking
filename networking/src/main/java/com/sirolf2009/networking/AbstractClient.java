@@ -14,17 +14,19 @@ public abstract class AbstractClient implements IClient, Observer {
 	
 	public AbstractClient(String host, int port) {
 		try {
-			socket = new Socket(host, port);
-			connector = new Connector(this, this);
-			new Thread(connector).start();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			System.exit(-1);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(-1);
+			connect(host, port);
+		} catch (Exception e) {
+			onConnectFailed(e);
 		}
 	}
+	
+	public void connect(String host, int port) throws UnknownHostException, IOException {
+		socket = new Socket(host, port);
+		connector = new Connector(this, this);
+		new Thread(connector).start();
+	}
+	
+	public void onConnectFailed(Exception e) {}
 	
 	public void sendPacket(Packet packet) {
 		getSender().send(packet);
