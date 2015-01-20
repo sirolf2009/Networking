@@ -31,8 +31,8 @@ public class TestNetworking {
 	@Before
 	public void setUp() throws Exception {
 		Packet.registerPacket(1, TestPacket.class);
-		server = new TestServer(1200);
-		client = new TestClient(1200);
+		server = new TestServer(25565);
+		client = new TestClient(25565);
 		message = "Hello World";
 		while(!Connected) { Thread.sleep(1);}
 		System.out.println("Connected in setup");
