@@ -3,23 +3,21 @@ package com.sirolf2009.networking;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Observable;
+import java.util.Queue;
 
 public class Sender extends Observable implements Runnable {
 
 	public PrintWriter out;
-	private List<Packet> queue;
+	private Queue<Packet> queue;
 	private ICommunicator communicator;
 	private Events events;
 	private boolean connected;
 
 	public Sender(ICommunicator communicator) {
 		try {
-			this.setCommunicator(communicator);
-			out = new PrintWriter(((Socket)communicator.getSocket()).getOutputStream());
-			queue = new ArrayList<Packet>();
+			setCommunicator(communicator);
 			events = new Events();
 			connected = true;
 		} catch (IOException e) {
@@ -44,16 +42,16 @@ public class Sender extends Observable implements Runnable {
 	}
 
 	private synchronized void sendToClient() {
-		for(Packet packet : queue) {
+		while(queue.size() != 0) {
+			Packet packet = queue.poll();
 			if(Packet.packetsPackettoID.get(packet.getClass()) == null) {
 				System.err.println("WARNING! YOU ARE SENDING A PACKET THAT HAS NO ID BOUND TO IT! PACKET: "+packet);
 			}
 			packet.send(out);
 			out.flush();
 			setChanged();
-			notifyObservers(events.new EventPacketSend(packet));
+			notifyObservers(events.new EventPacketSend(packet, communicator));
 		}
-		queue.clear();
 	}
 
 	public ICommunicator getCommunicator() {
@@ -62,7 +60,7 @@ public class Sender extends Observable implements Runnable {
 
 	public void setCommunicator(ICommunicator communicator) throws IOException {
 		out = new PrintWriter(((Socket)communicator.getSocket()).getOutputStream());
-		queue = new ArrayList<Packet>();
+		queue = new LinkedList<Packet>();
 		this.communicator = communicator;
 	}
 	

@@ -49,7 +49,7 @@ public class Receiver extends Observable implements Runnable {
 				} else {
 					Packet packet = (Packet) Packet.packetsIDtoPacket.get(packetID).newInstance();
 					packet.receive(in);
-					notifyObservers(events.new EventPacketReceived(packet));
+					notifyObservers(events.new EventPacketReceived(packet, communicator));
 					if(!communicator.isRemote()) {
 						packet.receivedOnClient((IClient) communicator);
 					} else {

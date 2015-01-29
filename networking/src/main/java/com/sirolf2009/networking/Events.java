@@ -24,9 +24,11 @@ public class Events {
 	public class EventPacketSend {
 		
 		private Packet packet;
+		private ICommunicator communicator;
 		
-		public EventPacketSend(Packet packet) {
+		public EventPacketSend(Packet packet, ICommunicator communicator) {
 			setPacket(packet);
+			setCommunicator(communicator);
 		}
 
 		public Packet getPacket() {
@@ -35,6 +37,14 @@ public class Events {
 
 		public void setPacket(Packet packet) {
 			this.packet = packet;
+		}
+
+		public ICommunicator getCommunicator() {
+			return communicator;
+		}
+
+		public void setCommunicator(ICommunicator communicator) {
+			this.communicator = communicator;
 		}
 		
 	}
@@ -42,9 +52,11 @@ public class Events {
 	public class EventPacketReceived {
 		
 		private Packet packet;
+		private ICommunicator communicator;
 		
-		public EventPacketReceived(Packet packet) {
+		public EventPacketReceived(Packet packet, ICommunicator communicator) {
 			setPacket(packet);
+			setCommunicator(communicator);
 		}
 
 		public Packet getPacket() {
@@ -53,6 +65,14 @@ public class Events {
 
 		public void setPacket(Packet packet) {
 			this.packet = packet;
+		}
+
+		public ICommunicator getCommunicator() {
+			return communicator;
+		}
+
+		public void setCommunicator(ICommunicator communicator) {
+			this.communicator = communicator;
 		}
 		
 	}
