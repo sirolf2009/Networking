@@ -1,5 +1,6 @@
 Networking API
 ==========
+[![Build Status](http://104.223.1.238:8080/buildStatus/icon?job=Networking)](http://104.223.1.238:8080/job/Networking/)
 
 This is an API that allows you to connect multiple java applications to eachother. It follows an server-client structure.
 
